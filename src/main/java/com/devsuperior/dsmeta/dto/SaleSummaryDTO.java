@@ -2,19 +2,17 @@ package com.devsuperior.dsmeta.dto;
 
 import com.devsuperior.dsmeta.entities.Sale;
 
-import java.time.LocalDate;
-
-public class SaleMinDTOWithSellerName {
+public class SaleSummaryDTO {
 
 	private String sellerName;
 	private Double amount;
 
-	public SaleMinDTOWithSellerName(String sellerName, Double amount) {
+	public SaleSummaryDTO(String sellerName, Double amount) {
 		this.sellerName = sellerName;
 		this.amount = amount;
 	}
 
-	public SaleMinDTOWithSellerName(Sale entity) {
+	public SaleSummaryDTO(Sale entity) {
 		sellerName = entity.getSeller().getName();
 		amount = entity.getAmount();
 	}

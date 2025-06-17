@@ -1,7 +1,7 @@
 package com.devsuperior.dsmeta.services;
 
-import com.devsuperior.dsmeta.dto.SaleMinDTO;
-import com.devsuperior.dsmeta.dto.SaleMinDTOWithSellerName;
+import com.devsuperior.dsmeta.dto.SaleReportDTO;
+import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,13 @@ public class SaleService {
 	@Autowired
 	private SaleRepository repository;
 	
-	public SaleMinDTO findById(Long id) {
+	public SaleReportDTO findById(Long id) {
 		Optional<Sale> result = repository.findById(id);
 		Sale entity = result.get();
-		return new SaleMinDTO(entity);
+		return new SaleReportDTO(entity);
 	}
 
-	public Page<SaleMinDTOWithSellerName> searchSalesBetweenDateForName(String minDate, String maxDate, String name, Pageable pageable) {
+	public Page<SaleSummaryDTO> searchSalesBetweenDateForName(String minDate, String maxDate, String name, Pageable pageable) {
 		LocalDate today;
 		try {
 			today = (maxDate != null && !maxDate.isBlank())
@@ -44,10 +44,10 @@ public class SaleService {
 			initDate = today.minusYears(1L);
 		}
 		Page<Sale> sales = repository.searchSalesBetweenDateForName(initDate, today, name, pageable);
-	return sales.map(SaleMinDTOWithSellerName::new);
+	return sales.map(SaleSummaryDTO::new);
 	}
 
-	public Page<SaleMinDTO> searchSalesBetweenDate(String minDate, String maxDate, Pageable pageable) {
+	public Page<SaleReportDTO> searchSalesBetweenDate(String minDate, String maxDate, Pageable pageable) {
 		LocalDate today;
 		try {
 			today = (maxDate != null && !maxDate.isBlank())
@@ -66,6 +66,6 @@ public class SaleService {
 		}
 
 		Page<Sale> sales = repository.searchSalesBetweenDate(initDate, today, pageable);
-		return sales.map(SaleMinDTO::new);
+		return sales.map(SaleReportDTO::new);
 	}
 }
