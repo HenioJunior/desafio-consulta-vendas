@@ -26,7 +26,7 @@ public class SaleService {
 		return new SaleReportDTO(entity);
 	}
 
-	public Page<SaleSummaryDTO> searchSalesBetweenDateForName(String minDate, String maxDate, String name, Pageable pageable) {
+	public Page<SaleSummaryDTO> searchSalesBetweenDate(String minDate, String maxDate, Pageable pageable) {
 		LocalDate today;
 		try {
 			today = (maxDate != null && !maxDate.isBlank())
@@ -43,11 +43,11 @@ public class SaleService {
 		} catch (DateTimeParseException e) {
 			initDate = today.minusYears(1L);
 		}
-		Page<Sale> sales = repository.searchSalesBetweenDateForName(initDate, today, name, pageable);
+		Page<Sale> sales = repository.searchSalesBetweenDate(initDate, today, pageable);
 	return sales.map(SaleSummaryDTO::new);
 	}
 
-	public Page<SaleReportDTO> searchSalesBetweenDate(String minDate, String maxDate, Pageable pageable) {
+	public Page<SaleReportDTO> searchSalesBetweenDateForName(String minDate, String maxDate, String name, Pageable pageable) {
 		LocalDate today;
 		try {
 			today = (maxDate != null && !maxDate.isBlank())
@@ -65,7 +65,7 @@ public class SaleService {
 			initDate = today.minusYears(1L);
 		}
 
-		Page<Sale> sales = repository.searchSalesBetweenDate(initDate, today, pageable);
+		Page<Sale> sales = repository.searchSalesBetweenDateForName(initDate, today, name, pageable);
 		return sales.map(SaleReportDTO::new);
 	}
 }

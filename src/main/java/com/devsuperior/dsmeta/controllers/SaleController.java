@@ -15,7 +15,7 @@ public class SaleController {
 
 	@Autowired
 	private SaleService service;
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<SaleReportDTO> findById(@PathVariable Long id) {
 		SaleReportDTO dto = service.findById(id);
@@ -26,9 +26,8 @@ public class SaleController {
 	public ResponseEntity<Page<SaleSummaryDTO>> getSummary(
 			@RequestParam(name = "minDate", defaultValue = "") String minDate,
 			@RequestParam(name = "maxDate", defaultValue = "") String maxDate,
-			@RequestParam(name = "name", defaultValue = "") String name,
 			Pageable pageable) {
-		Page<SaleSummaryDTO> sales = service.searchSalesBetweenDateForName(minDate, maxDate, name, pageable);
+		Page<SaleSummaryDTO> sales = service.searchSalesBetweenDate(minDate, maxDate, pageable);
 		return ResponseEntity.ok(sales);
 	}
 
@@ -36,10 +35,11 @@ public class SaleController {
 	public ResponseEntity<Page<SaleReportDTO>> getReport(
 			@RequestParam(name = "minDate", defaultValue = "") String minDate,
 			@RequestParam(name = "maxDate", defaultValue = "") String maxDate,
+			@RequestParam(name = "name", defaultValue = "") String name,
 			Pageable pageable
 	) {
 
-		Page<SaleReportDTO> sales = service.searchSalesBetweenDate(minDate, maxDate, pageable);
+		Page<SaleReportDTO> sales = service.searchSalesBetweenDateForName(minDate, maxDate, name, pageable);
 		return ResponseEntity.ok(sales);
 	}
 }

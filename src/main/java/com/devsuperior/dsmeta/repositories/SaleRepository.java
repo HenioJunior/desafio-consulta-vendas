@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query("SELECT obj FROM Sale obj " +
-            "WHERE (obj.date BETWEEN :minDate AND :maxDate) " +
+            "WHERE obj.date BETWEEN :minDate AND :maxDate " +
             "AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<Sale> searchSalesBetweenDateForName(
             @Param("minDate") LocalDate minDate,
